@@ -47,20 +47,5 @@
                 <Label fx:id="profileStatus" wrapText="true" styleClass="muted-copy"/>
             </HBox>
         </VBox>
-
-        <!-- Admin panel (only visible for Administrateur) -->
-        <VBox fx:id="adminPanel" spacing="12" maxWidth="560">
-            <styleClass>
-                <String fx:value="dashboard-card"/>
-                <String fx:value="elevated-1"/>
-            </styleClass>
-            <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
-            </padding>
-            <Label text="Admin Panel" styleClass="section-title"/>
-            <Button fx:id="manageGamesButton" text="gererLesJeux()" styleClass="warning"/>
-            <Button fx:id="manageUsersButton" text="gererLesUtilisateurs()" styleClass="warning"/>
-            <Label fx:id="adminResponse" wrapText="true" styleClass="muted-copy"/>
-        </VBox>
     </VBox>
 </ScrollPane>

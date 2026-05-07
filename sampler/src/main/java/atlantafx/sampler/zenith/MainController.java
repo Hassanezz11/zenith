@@ -29,6 +29,7 @@ public class MainController implements Initializable {
     private static final String FXML_MESSAGES = FXML_BASE + "Messages.fxml";
     private static final String FXML_PROFILE = FXML_BASE + "Profile.fxml";
     private static final String FXML_LIBRARY = FXML_BASE + "Library.fxml";
+    private static final String FXML_ADMIN = FXML_BASE + "Admin.fxml";
 
     @FXML private StackPane contentArea;
     @FXML private Button btnHome;
@@ -36,6 +37,7 @@ public class MainController implements Initializable {
     @FXML private Button btnLibrary;
     @FXML private Button btnMessages;
     @FXML private Button btnProfile;
+    @FXML private Button btnAdmin;
     @FXML private Button chatLauncherButton;
     @FXML private TextField searchBar;
     @FXML private Label lblPageTitle;
@@ -55,6 +57,13 @@ public class MainController implements Initializable {
         chatPopupController.setMinimizeAction(this::toggleChatOverlay);
         chatPopupController.setExpanded(false);
         activeNavBtn = btnHome;
+
+        // Show admin button only for admins
+        Joueur user = Session.isLoggedIn() ? Session.getCurrentUser() : store.getCurrentUser();
+        boolean isAdmin = user != null && user.isAdministrateur();
+        btnAdmin.setVisible(isAdmin);
+        btnAdmin.setManaged(isAdmin);
+
         switchView(FXML_HOME);
         searchBar.textProperty().addListener((obs, oldVal, newVal) -> onSearch(newVal));
     }
@@ -93,6 +102,13 @@ public class MainController implements Initializable {
         setActiveNavBtn(btnProfile);
         lblPageTitle.setText("Profile");
         switchView(FXML_PROFILE);
+    }
+
+    @FXML
+    private void onAdmin() {
+        setActiveNavBtn(btnAdmin);
+        lblPageTitle.setText("Admin Panel");
+        switchView(FXML_ADMIN);
     }
 
     @FXML
@@ -141,6 +157,7 @@ public class MainController implements Initializable {
         btnLibrary.setGraphic(new FontIcon(Feather.BOOK_OPEN));
         btnMessages.setGraphic(new FontIcon(Feather.MESSAGE_SQUARE));
         btnProfile.setGraphic(new FontIcon(Feather.USER));
+        btnAdmin.setGraphic(new FontIcon(Feather.SHIELD));
         chatLauncherButton.setGraphic(new FontIcon(Feather.MESSAGE_CIRCLE));
     }
 

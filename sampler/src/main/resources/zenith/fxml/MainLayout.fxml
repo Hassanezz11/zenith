@@ -47,7 +47,7 @@
                     <String fx:value="nav-button"/>
                 </styleClass>
             </Button>
-            <Button fx:id="btnMessages" text="Community Messages" onAction="#onMessages" maxWidth="Infinity">
+            <Button fx:id="btnMessages" text="Messages" onAction="#onMessages" maxWidth="Infinity">
                 <styleClass>
                     <String fx:value="flat"/>
                     <String fx:value="nav-button"/>
@@ -57,6 +57,15 @@
                 <styleClass>
                     <String fx:value="flat"/>
                     <String fx:value="nav-button"/>
+                </styleClass>
+            </Button>
+            <!-- Only visible when an admin is logged in -->
+            <Button fx:id="btnAdmin" text="Admin Panel" onAction="#onAdmin"
+                    maxWidth="Infinity" visible="false" managed="false">
+                <styleClass>
+                    <String fx:value="flat"/>
+                    <String fx:value="nav-button"/>
+                    <String fx:value="nav-button-admin"/>
                 </styleClass>
             </Button>
             <Region>

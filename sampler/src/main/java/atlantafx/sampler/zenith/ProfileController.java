@@ -21,10 +21,6 @@ public class ProfileController implements Initializable {
     @FXML private PasswordField passwordField;
     @FXML private Button saveProfileButton;
     @FXML private Label profileStatus;
-    @FXML private javafx.scene.layout.VBox adminPanel;
-    @FXML private Label adminResponse;
-    @FXML private Button manageGamesButton;
-    @FXML private Button manageUsersButton;
 
     private final ZenithStore store = ZenithStore.getInstance();
     private Joueur currentUser;
@@ -41,15 +37,6 @@ public class ProfileController implements Initializable {
         rankLabel.getStyleClass().addAll("rank-badge", RankCalculator.cssClass(rank));
 
         nameField.setText(currentUser.getNom());
-
-        adminPanel.setVisible(currentUser.isAdministrateur());
-        adminPanel.setManaged(currentUser.isAdministrateur());
-
-        if (currentUser instanceof Administrateur admin) {
-            manageGamesButton.setOnAction(event -> adminResponse.setText(admin.gererLesJeux()));
-            manageUsersButton.setOnAction(event -> adminResponse.setText(admin.gererLesUtilisateurs()));
-        }
-
         saveProfileButton.setOnAction(event -> saveProfile());
     }
 

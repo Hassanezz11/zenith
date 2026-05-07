@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/24"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="atlantafx.sampler.zenith.AdminController"
+            fitToWidth="true"
+            hbarPolicy="NEVER"
+            styleClass="content-scroll">
+
+    <VBox spacing="24" styleClass="screen-root">
+        <padding>
+            <Insets top="32" right="28" bottom="32" left="28"/>
+        </padding>
+
+        <!-- Header -->
+        <VBox spacing="6">
+            <Label text="Admin Panel" styleClass="page-title"/>
+            <Label text="Manage users, promote admins, ban offenders, monitor activity." styleClass="muted-copy"/>
+        </VBox>
+
+        <!-- Stats summary -->
+        <VBox fx:id="summaryBox" spacing="0"/>
+
+        <!-- Search -->
+        <TextField fx:id="searchField" promptText="Search by name or email…" styleClass="search-field"/>
+
+        <!-- Status label (migration warning etc.) -->
+        <Label fx:id="statusLabel" wrapText="true" styleClass="muted-copy"/>
+
+        <!-- User rows -->
+        <VBox fx:id="userListBox" spacing="12"/>
+    </VBox>
+</ScrollPane>

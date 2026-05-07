@@ -548,6 +548,25 @@
 
 /* ── Verified purchase badge ─────────────────────────────────────────── */
 
+/* ── Admin nav button ────────────────────────────────────────────────── */
+
+.nav-button-admin {
+    -fx-text-fill: #ffb86c;
+}
+
+.nav-button-admin:hover {
+    -fx-background-color: rgba(255, 184, 108, 0.1);
+    -fx-text-fill: #ffb86c;
+}
+
+.nav-button-admin.nav-button-active {
+    -fx-background-color: rgba(255, 184, 108, 0.12);
+    -fx-border-color: rgba(255, 184, 108, 0.3);
+    -fx-text-fill: #ffb86c;
+}
+
+/* ── Verified purchase badge ─────────────────────────────────────────── */
+
 .verified-badge {
     -fx-background-color: rgba(80, 250, 123, 0.14);
     -fx-background-radius: 999px;
