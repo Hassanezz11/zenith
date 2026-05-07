@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/24"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="atlantafx.sampler.zenith.BrowseController"
+            styleClass="screen-root">
+    <top>
+        <HBox spacing="16" alignment="CENTER_LEFT" styleClass="filter-bar">
+            <padding>
+                <Insets top="24" right="24" bottom="18" left="24"/>
+            </padding>
+            <Label text="Category" styleClass="filter-label"/>
+            <ComboBox fx:id="categoryFilter" prefWidth="170"/>
+            <Label text="Price" styleClass="filter-label"/>
+            <ComboBox fx:id="priceFilter" prefWidth="170"/>
+        </HBox>
+    </top>
+    <center>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="content-scroll">
+            <FlowPane fx:id="gamesGrid" hgap="18" vgap="18" styleClass="catalog-grid">
+                <padding>
+                    <Insets top="0" right="24" bottom="24" left="24"/>
+                </padding>
+            </FlowPane>
+        </ScrollPane>
+    </center>
+</BorderPane>

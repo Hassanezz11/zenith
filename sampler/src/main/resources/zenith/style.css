@@ -1,0 +1,561 @@
+.root {
+    -color-bg-default: #282a36;
+    -color-bg-subtle: #1f2330;
+    -color-bg-muted: #171a24;
+    -color-fg-default: #f8f8f2;
+    -color-fg-muted: #a5adc6;
+    -color-border-default: rgba(255, 255, 255, 0.08);
+    -color-accent-emphasis: #ccff00;
+    -color-accent-fg: #0b0e11;
+    -color-accent-muted: rgba(204, 255, 0, 0.25);
+    -color-accent-subtle: rgba(204, 255, 0, 0.12);
+    -color-success-emphasis: #50fa7b;
+    -color-warning-emphasis: #ffb86c;
+    -fx-background-color: -color-bg-default;
+}
+
+.zenith-root {
+    -fx-background-color: linear-gradient(to bottom right, #282a36, #171a24);
+}
+
+.content-scroll,
+.content-scroll > .viewport,
+.screen-root {
+    -fx-background-color: transparent;
+}
+
+.sidebar {
+    -fx-background-color: rgba(11, 14, 17, 0.82);
+    -fx-border-color: transparent rgba(255, 255, 255, 0.08) transparent transparent;
+    -fx-border-width: 0 1 0 0;
+}
+
+.brand-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: 900;
+    -fx-letter-spacing: 2px;
+    -fx-text-fill: white;
+}
+
+.sidebar-footnote,
+.muted-copy {
+    -fx-text-fill: -color-fg-muted;
+    -fx-font-size: 12px;
+}
+
+.top-navigation {
+    -fx-background-color: rgba(11, 14, 17, 0.55);
+    -fx-border-color: transparent transparent rgba(255, 255, 255, 0.06) transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.page-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: 800;
+}
+
+.search-field {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-border-color: rgba(255, 255, 255, 0.08);
+    -fx-border-width: 1px;
+    -fx-padding: 12 16 12 16;
+}
+
+.search-field:focused {
+    -fx-border-color: -color-accent-emphasis;
+    -fx-effect: dropshadow(gaussian, rgba(204, 255, 0, 0.25), 18, 0.3, 0, 0);
+}
+
+.nav-button {
+    -fx-alignment: CENTER_LEFT;
+    -fx-content-display: LEFT;
+    -fx-graphic-text-gap: 12;
+    -fx-padding: 12 14 12 14;
+    -fx-background-radius: 14px;
+    -fx-font-size: 13.5px;
+    -fx-font-weight: 700;
+}
+
+.nav-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+}
+
+.nav-button-active {
+    -fx-background-color: rgba(204, 255, 0, 0.12);
+    -fx-border-color: rgba(204, 255, 0, 0.28);
+    -fx-border-radius: 14px;
+    -fx-border-width: 1px;
+}
+
+.floating-chat-button {
+    -fx-background-radius: 999px;
+    -fx-min-width: 58px;
+    -fx-min-height: 58px;
+    -fx-pref-width: 58px;
+    -fx-pref-height: 58px;
+    -fx-effect: dropshadow(gaussian, rgba(204, 255, 0, 0.3), 22, 0.3, 0, 0);
+}
+
+.hero-section {
+    -fx-background-color: rgba(255, 255, 255, 0.03);
+    -fx-background-radius: 26px;
+    -fx-border-color: rgba(255, 255, 255, 0.08);
+    -fx-border-radius: 26px;
+    -fx-border-width: 1px;
+}
+
+.hero-glass {
+    -fx-background-color: rgba(11, 14, 17, 0.55);
+    -fx-background-radius: 22px;
+    -fx-border-color: rgba(255, 255, 255, 0.12);
+    -fx-border-radius: 22px;
+    -fx-padding: 22;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.35), 18, 0.2, 0, 12);
+}
+
+.hero-title {
+    -fx-font-size: 30px;
+    -fx-font-weight: 900;
+}
+
+.hero-copy,
+.detail-copy {
+    -fx-font-size: 14px;
+    -fx-line-spacing: 4px;
+    -fx-text-fill: rgba(248, 248, 242, 0.84);
+}
+
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: 800;
+}
+
+.dashboard-card,
+.game-card,
+.action-zone,
+.detail-pane,
+.inventory-tile {
+    -fx-background-color: rgba(17, 20, 28, 0.88);
+    -fx-background-radius: 20px;
+    -fx-border-color: rgba(255, 255, 255, 0.08);
+    -fx-border-radius: 20px;
+    -fx-border-width: 1px;
+}
+
+.dashboard-card {
+    -fx-padding: 18;
+}
+
+.stat-overline,
+.filter-label {
+    -fx-text-fill: -color-fg-muted;
+    -fx-font-size: 11px;
+    -fx-font-weight: 800;
+    -fx-letter-spacing: 1.5px;
+}
+
+.stat-value {
+    -fx-font-size: 26px;
+    -fx-font-weight: 900;
+}
+
+.suggestion-card,
+.inventory-tile,
+.game-card {
+    -fx-padding: 14;
+}
+
+.game-card:hover,
+.inventory-tile:hover,
+.suggestion-card:hover {
+    -fx-translate-y: -4px;
+    -fx-border-color: rgba(204, 255, 0, 0.25);
+}
+
+.game-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: 800;
+}
+
+.catalog-grid {
+    -fx-alignment: TOP_LEFT;
+}
+
+.poster-wrap {
+    -fx-background-radius: 16px;
+}
+
+.price-badge {
+    -fx-padding: 8 10 8 10;
+    -fx-background-radius: 999px;
+}
+
+.price-pill {
+    -fx-background-color: rgba(204, 255, 0, 0.16);
+    -fx-background-radius: 999px;
+    -fx-padding: 8 14 8 14;
+    -fx-text-fill: -color-accent-emphasis;
+    -fx-font-weight: 700;
+}
+
+.review-author {
+    -fx-font-weight: 700;
+}
+
+.review-bubble {
+    -fx-background-color: -color-bg-subtle;
+    -fx-background-radius: 18px;
+    -fx-padding: 14;
+    -fx-text-fill: -color-fg-default;
+}
+
+.review-star,
+.review-star-active {
+    -fx-icon-size: 16px;
+}
+
+.review-star {
+    -fx-icon-color: rgba(255, 255, 255, 0.24);
+}
+
+.review-star-active {
+    -fx-icon-color: -color-warning-emphasis;
+}
+
+.message-meta {
+    -fx-font-size: 11px;
+    -fx-text-fill: -color-fg-muted;
+}
+
+.message-bubble {
+    -fx-background-radius: 18px;
+    -fx-padding: 12 14 12 14;
+}
+
+.message-incoming {
+    -fx-background-color: rgba(255, 255, 255, 0.06);
+}
+
+.message-outgoing {
+    -fx-background-color: rgba(204, 255, 0, 0.14);
+    -fx-border-color: rgba(204, 255, 0, 0.2);
+    -fx-border-radius: 18px;
+}
+
+.conversation-name {
+    -fx-font-size: 14px;
+    -fx-font-weight: 800;
+}
+
+.chat-popup {
+    -fx-background-color: rgba(15, 17, 23, 0.92);
+    -fx-background-radius: 22px;
+    -fx-border-color: rgba(204, 255, 0, 0.24);
+    -fx-border-radius: 22px;
+    -fx-border-width: 1px;
+}
+
+.chat-popup .text-area,
+.chat-popup .text-area .content {
+    -fx-background-color: rgba(255, 255, 255, 0.04);
+    -fx-background-radius: 16px;
+}
+
+.scroll-bar:vertical .thumb,
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: rgba(255, 255, 255, 0.14);
+    -fx-background-radius: 999px;
+}
+
+/* ── Global text: force light on dark background ─────────────────────── */
+
+.label {
+    -fx-text-fill: -color-fg-default;
+}
+
+.text-field,
+.text-area,
+.text-area .content {
+    -fx-text-fill: -color-fg-default;
+    -fx-prompt-text-fill: -color-fg-muted;
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-border-color: rgba(255, 255, 255, 0.08);
+    -fx-border-width: 1px;
+}
+
+.combo-box,
+.combo-box .list-cell,
+.combo-box-popup .list-view .list-cell {
+    -fx-text-fill: -color-fg-default;
+    -fx-background-color: rgba(17, 20, 28, 0.95);
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: rgba(17, 20, 28, 0.98);
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+}
+
+.combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: rgba(204, 255, 0, 0.12);
+}
+
+/* ── Named text styles with explicit fill ────────────────────────────── */
+
+.page-title {
+    -fx-text-fill: -color-fg-default;
+}
+
+.section-title {
+    -fx-text-fill: -color-fg-default;
+}
+
+.hero-title {
+    -fx-text-fill: -color-fg-default;
+}
+
+.stat-value {
+    -fx-text-fill: -color-fg-default;
+}
+
+.game-title {
+    -fx-text-fill: -color-fg-default;
+}
+
+.review-author {
+    -fx-text-fill: -color-fg-default;
+}
+
+.conversation-name {
+    -fx-text-fill: -color-fg-default;
+}
+
+/* ── Nav buttons: light text in both states ──────────────────────────── */
+
+.nav-button {
+    -fx-text-fill: -color-fg-default;
+}
+
+.nav-button:hover {
+    -fx-text-fill: white;
+}
+
+.nav-button-active {
+    -fx-text-fill: -color-accent-emphasis;
+}
+
+/* ── MenuButton / user menu ──────────────────────────────────────────── */
+
+.menu-button,
+.menu-button .label {
+    -fx-text-fill: -color-fg-default;
+}
+
+.context-menu,
+.menu-item {
+    -fx-background-color: rgba(17, 20, 28, 0.98);
+}
+
+.menu-item .label {
+    -fx-text-fill: -color-fg-default;
+}
+
+.menu-item:hover {
+    -fx-background-color: rgba(204, 255, 0, 0.12);
+}
+
+/* ── TabPane ─────────────────────────────────────────────────────────── */
+
+.tab-pane .tab {
+    -fx-background-color: rgba(17, 20, 28, 0.7);
+}
+
+.tab-pane .tab .tab-label {
+    -fx-text-fill: -color-fg-muted;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: rgba(204, 255, 0, 0.12);
+    -fx-border-color: rgba(204, 255, 0, 0.28);
+}
+
+.tab-pane .tab:selected .tab-label {
+    -fx-text-fill: -color-accent-emphasis;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: rgba(11, 14, 17, 0.55);
+}
+
+/* ── Message text inside bubbles ─────────────────────────────────────── */
+
+.message-bubble .label,
+.message-bubble Text {
+    -fx-text-fill: -color-fg-default;
+    -fx-fill: -color-fg-default;
+}
+
+/* ── Chat popup input ────────────────────────────────────────────────── */
+
+.chat-popup .text-area .content Text,
+.chat-popup .label {
+    -fx-fill: -color-fg-default;
+    -fx-text-fill: -color-fg-default;
+}
+
+/* ── Scroll bars: hide track ─────────────────────────────────────────── */
+
+.scroll-bar:vertical,
+.scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .track,
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track-background,
+.scroll-bar:horizontal .track-background {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+/* ── Message input bar (bottom of chat panels) ───────────────────────── */
+
+.message-input-bar {
+    -fx-background-color: rgba(11, 14, 17, 0.6);
+    -fx-border-color: rgba(255, 255, 255, 0.06) transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+/* ── Friend cards (search results / friends list / pending requests) ─── */
+
+.friend-card {
+    -fx-background-color: rgba(17, 20, 28, 0.88);
+    -fx-background-radius: 14px;
+    -fx-border-color: rgba(255, 255, 255, 0.08);
+    -fx-border-radius: 14px;
+    -fx-border-width: 1px;
+    -fx-padding: 10 14 10 14;
+}
+
+.friend-card:hover {
+    -fx-border-color: rgba(204, 255, 0, 0.22);
+}
+
+/* ── Friends tab sections ────────────────────────────────────────────── */
+
+.friends-section {
+    -fx-background-color: rgba(17, 20, 28, 0.6);
+    -fx-background-radius: 18px;
+    -fx-border-color: rgba(255, 255, 255, 0.07);
+    -fx-border-radius: 18px;
+    -fx-border-width: 1px;
+    -fx-padding: 18 20 18 20;
+}
+
+/* ── ListView (conversation list) ────────────────────────────────────── */
+
+.list-view {
+    -fx-background-color: rgba(11, 14, 17, 0.5);
+    -fx-border-color: transparent;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 10 14 10 14;
+    -fx-border-color: transparent transparent rgba(255, 255, 255, 0.05) transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.list-cell:selected {
+    -fx-background-color: rgba(204, 255, 0, 0.1);
+    -fx-border-color: transparent transparent rgba(255, 255, 255, 0.05) transparent;
+}
+
+.list-cell:hover:!selected {
+    -fx-background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* ── SplitPane divider ───────────────────────────────────────────────── */
+
+.split-pane > .split-pane-divider {
+    -fx-background-color: rgba(255, 255, 255, 0.07);
+    -fx-padding: 0 1 0 0;
+}
+
+.split-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+/* ── Global spacing & card polish ────────────────────────────────────── */
+
+.dashboard-card {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.28), 12, 0.15, 0, 4);
+}
+
+.inventory-tile {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.28), 12, 0.15, 0, 4);
+}
+
+.button.accent {
+    -fx-font-weight: 700;
+}
+
+.tab-pane {
+    -fx-tab-min-width: 120px;
+}
+
+/* ── Rank badges ─────────────────────────────────────────────────────── */
+
+.rank-badge {
+    -fx-background-radius: 999px;
+    -fx-padding: 3 12 3 12;
+    -fx-font-weight: 700;
+    -fx-font-size: 12px;
+}
+
+.rank-bronze {
+    -fx-background-color: rgba(205, 127, 50, 0.18);
+    -fx-text-fill: #cd7f32;
+}
+
+.rank-silver {
+    -fx-background-color: rgba(192, 192, 192, 0.18);
+    -fx-text-fill: #c0c0c0;
+}
+
+.rank-gold {
+    -fx-background-color: rgba(255, 215, 0, 0.18);
+    -fx-text-fill: #ffd700;
+}
+
+.rank-platinum {
+    -fx-background-color: rgba(204, 255, 0, 0.14);
+    -fx-text-fill: -color-accent-emphasis;
+}
+
+.rank-diamond {
+    -fx-background-color: rgba(100, 220, 255, 0.18);
+    -fx-text-fill: #64dcff;
+}
+
+/* ── Verified purchase badge ─────────────────────────────────────────── */
+
+.verified-badge {
+    -fx-background-color: rgba(80, 250, 123, 0.14);
+    -fx-background-radius: 999px;
+    -fx-border-color: rgba(80, 250, 123, 0.35);
+    -fx-border-radius: 999px;
+    -fx-border-width: 1px;
+    -fx-padding: 2 10 2 10;
+    -fx-text-fill: #50fa7b;
+    -fx-font-size: 11px;
+    -fx-font-weight: 700;
+}

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/24"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="atlantafx.sampler.zenith.MessagesController"
+      spacing="0" styleClass="screen-root">
+
+    <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE">
+        <VBox.vgrow>
+            <Priority fx:constant="ALWAYS"/>
+        </VBox.vgrow>
+
+        <!-- ── Tab 1: Direct Messages ────────────────────────────── -->
+        <Tab text="Direct Messages">
+            <SplitPane dividerPositions="0.3">
+                <items>
+                    <ListView fx:id="conversationList"/>
+                    <VBox spacing="0">
+                        <ScrollPane fx:id="messageScrollPane" fitToWidth="true"
+                                    hbarPolicy="NEVER" styleClass="content-scroll">
+                            <VBox.vgrow>
+                                <Priority fx:constant="ALWAYS"/>
+                            </VBox.vgrow>
+                            <VBox fx:id="messageContent" spacing="16">
+                                <padding>
+                                    <Insets top="16" right="16" bottom="16" left="16"/>
+                                </padding>
+                            </VBox>
+                        </ScrollPane>
+                        <HBox spacing="12" styleClass="message-input-bar">
+                            <padding>
+                                <Insets top="12" right="16" bottom="12" left="16"/>
+                            </padding>
+                            <TextField fx:id="messageInput" promptText="Send a message...">
+                                <HBox.hgrow>
+                                    <Priority fx:constant="ALWAYS"/>
+                                </HBox.hgrow>
+                            </TextField>
+                            <Button fx:id="sendButton" text="Send" styleClass="accent"/>
+                        </HBox>
+                    </VBox>
+                </items>
+            </SplitPane>
+        </Tab>
+
+        <!-- ── Tab 2: Friends ───────────────────────────────────── -->
+        <Tab text="Friends">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="content-scroll">
+                <VBox spacing="20" styleClass="screen-root">
+                    <padding>
+                        <Insets top="24" right="24" bottom="24" left="24"/>
+                    </padding>
+
+                    <!-- Search & Add -->
+                    <VBox spacing="14" styleClass="friends-section">
+                        <Label text="Add Friend" styleClass="section-title"/>
+                        <HBox spacing="12">
+                            <TextField fx:id="friendSearchField"
+                                       promptText="Search by name or email...">
+                                <HBox.hgrow>
+                                    <Priority fx:constant="ALWAYS"/>
+                                </HBox.hgrow>
+                            </TextField>
+                            <Button fx:id="searchFriendButton" text="Search" styleClass="accent"/>
+                        </HBox>
+                        <VBox fx:id="searchResultsBox" spacing="10"/>
+                    </VBox>
+
+                    <!-- Pending Requests -->
+                    <VBox spacing="14" styleClass="friends-section">
+                        <Label text="Pending Requests" styleClass="section-title"/>
+                        <VBox fx:id="pendingRequestsBox" spacing="10">
+                            <Label text="No pending requests." styleClass="muted-copy"/>
+                        </VBox>
+                    </VBox>
+
+                    <!-- Friends List -->
+                    <VBox spacing="14" styleClass="friends-section">
+                        <Label text="Friends" styleClass="section-title"/>
+                        <VBox fx:id="friendsListBox" spacing="10">
+                            <Label text="No friends yet." styleClass="muted-copy"/>
+                        </VBox>
+                    </VBox>
+                </VBox>
+            </ScrollPane>
+        </Tab>
+    </TabPane>
+</VBox>

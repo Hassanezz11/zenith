@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/24"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="atlantafx.sampler.zenith.HomeController"
+            fitToWidth="true"
+            hbarPolicy="NEVER"
+            styleClass="content-scroll">
+    <VBox spacing="24" styleClass="screen-root">
+        <padding>
+            <Insets top="24" right="24" bottom="24" left="24"/>
+        </padding>
+
+        <StackPane fx:id="heroSection" styleClass="hero-section">
+            <ImageView fx:id="heroImage" fitHeight="340" preserveRatio="false" StackPane.alignment="CENTER"/>
+            <VBox spacing="14" maxWidth="460" StackPane.alignment="BOTTOM_LEFT" styleClass="hero-glass">
+                <Label fx:id="heroTitle" text="Featured Game" styleClass="hero-title"/>
+                <Label fx:id="heroSubtitle" wrapText="true" styleClass="hero-copy"/>
+                <HBox spacing="12">
+                    <Button fx:id="playNowButton" text="Play Now" styleClass="accent"/>
+                </HBox>
+            </VBox>
+        </StackPane>
+
+        <VBox spacing="14">
+            <Label text="Quick Stats" styleClass="section-title"/>
+            <FlowPane fx:id="quickStatsPane" hgap="16" vgap="16"/>
+        </VBox>
+
+        <HBox alignment="CENTER_LEFT" spacing="12">
+            <Label text="AI Suggestions" styleClass="section-title"/>
+            <Region>
+                <HBox.hgrow>
+                    <Priority fx:constant="ALWAYS"/>
+                </HBox.hgrow>
+            </Region>
+            <Label text="Powered by recommanderDesJeux()" styleClass="muted-copy"/>
+        </HBox>
+
+        <HBox fx:id="aiSuggestionsBox" spacing="16" fillHeight="true" maxWidth="Infinity"/>
+    </VBox>
+</ScrollPane>

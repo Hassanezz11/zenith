@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns="http://javafx.com/javafx/24"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="atlantafx.sampler.zenith.LoginController"
+           stylesheets="@../style.css"
+           style="-fx-background-color: #282a36;"
+           prefWidth="1280" prefHeight="820">
+
+    <VBox alignment="CENTER" spacing="28" maxWidth="420" StackPane.alignment="CENTER">
+
+        <!-- Brand -->
+        <VBox alignment="CENTER" spacing="6">
+            <Label text="ZENITH" styleClass="brand-title"/>
+            <Label text="Cyber-Minimalist Marketplace" styleClass="muted-copy"/>
+        </VBox>
+
+        <!-- Card -->
+        <VBox spacing="14"
+              style="-fx-background-color: #3a3c4e; -fx-background-radius: 10; -fx-padding: 32; -fx-pref-width: 420;">
+
+            <Label text="Sign In"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #f8f8f2;"/>
+
+            <VBox spacing="5">
+                <Label text="EMAIL" styleClass="stat-overline"/>
+                <TextField fx:id="emailField"
+                           promptText="you@example.com"
+                           styleClass="search-field"
+                           maxWidth="Infinity"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="PASSWORD" styleClass="stat-overline"/>
+                <PasswordField fx:id="passwordField"
+                               promptText="••••••••"
+                               styleClass="search-field"
+                               maxWidth="Infinity"/>
+            </VBox>
+
+            <Label fx:id="errorLabel" text=""
+                   style="-fx-text-fill: #ff5555; -fx-font-size: 12px;"
+                   wrapText="true"/>
+
+            <Button text="Sign In" maxWidth="Infinity" onAction="#onLogin"
+                    styleClass="accent" style="-fx-pref-height: 38px;"/>
+
+            <HBox alignment="CENTER" spacing="8" style="-fx-padding: 4 0 0 0;">
+                <Label text="No account yet?" styleClass="muted-copy"/>
+                <Button text="Sign Up" styleClass="flat" onAction="#onSignup"/>
+            </HBox>
+        </VBox>
+    </VBox>
+</StackPane>
