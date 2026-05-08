@@ -1,6 +1,7 @@
 package atlantafx.sampler.zenith;
 
 import atlantafx.sampler.zenith.dao.AvisDAO;
+import atlantafx.sampler.zenith.dao.JeuDAO;
 import atlantafx.sampler.zenith.dao.UserDAO;
 import atlantafx.sampler.zenith.dao.UsersJeuxDAO;
 
@@ -45,6 +46,7 @@ public class GameDetailController implements Initializable {
         jeu = store.getSelectedGame();
 
         coverImage.setImage(ZenithArtwork.createPoster(jeu, 360, 470));
+        ZenithArtwork.loadImageAsync(jeu.getBackgroundImageUrl(), 360, 470, coverImage);
         coverImage.setFitWidth(360);
         coverImage.setFitHeight(470);
         coverImage.setPreserveRatio(false);
@@ -112,9 +114,9 @@ public class GameDetailController implements Initializable {
     private void addToLibrary() {
         Joueur user = store.getCurrentUser();
         if (user.getUserId() <= 0) { actionStatusLabel.setText("Please log in first."); return; }
-        if (jeu.getJeuId() <= 0)   { actionStatusLabel.setText("Game not found in DB."); return; }
         try {
-            UsersJeuxDAO.addToLibrary(user.getUserId(), jeu.getJeuId());
+            int localId = JeuDAO.upsertRawgGame(jeu);
+            UsersJeuxDAO.addToLibrary(user.getUserId(), localId);
             recalculateRank(user.getUserId());
             actionStatusLabel.setText("Added to your library!");
             addToLibraryButton.setText("In Library");
@@ -139,9 +141,9 @@ public class GameDetailController implements Initializable {
     private void addToWishlist() {
         Joueur user = store.getCurrentUser();
         if (user.getUserId() <= 0) { actionStatusLabel.setText("Please log in first."); return; }
-        if (jeu.getJeuId() <= 0)   { actionStatusLabel.setText("Game not found in DB."); return; }
         try {
-            UsersJeuxDAO.addToWishlist(user.getUserId(), jeu.getJeuId());
+            int localId = JeuDAO.upsertRawgGame(jeu);
+            UsersJeuxDAO.addToWishlist(user.getUserId(), localId);
             actionStatusLabel.setText("Added to wishlist!");
             addToWishlistButton.setText("In Wishlist");
             addToWishlistButton.setDisable(true);

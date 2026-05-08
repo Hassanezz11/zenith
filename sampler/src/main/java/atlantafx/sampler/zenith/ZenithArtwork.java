@@ -1,9 +1,18 @@
 package atlantafx.sampler.zenith;
 
+import java.io.ByteArrayInputStream;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Semaphore;
+import javafx.application.Platform;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -11,7 +20,57 @@ import javafx.scene.text.FontWeight;
 
 final class ZenithArtwork {
 
+    private static final HttpClient HTTP = HttpClient.newBuilder()
+        .version(HttpClient.Version.HTTP_1_1)
+        .followRedirects(HttpClient.Redirect.ALWAYS)
+        .build();
+
+    private static final Semaphore IMAGE_SLOTS = new Semaphore(10);
+
     private ZenithArtwork() {
+    }
+
+    static void loadImageAsync(String url, double width, double height, ImageView target) {
+        if (url == null || url.isBlank()) return;
+        CompletableFuture.supplyAsync(() -> {
+            try {
+                IMAGE_SLOTS.acquire();
+                try {
+                    HttpRequest req = HttpRequest.newBuilder()
+                        .uri(URI.create(url))
+                        .header("User-Agent", "Mozilla/5.0 Zenith/1.0")
+                        .GET()
+                        .build();
+                    HttpResponse<byte[]> resp = HTTP.send(req, HttpResponse.BodyHandlers.ofByteArray());
+                    if (resp.statusCode() == 200 && resp.body().length > 0) {
+                        return new Image(new ByteArrayInputStream(resp.body()), width, height, false, true);
+                    }
+                } finally {
+                    IMAGE_SLOTS.release();
+                }
+            } catch (Exception e) {
+                System.err.println("[IMG] " + e.getMessage());
+            }
+            return null;
+        }).thenAccept(img -> {
+            if (img != null && !img.isError()) {
+                Platform.runLater(() -> target.setImage(img));
+            }
+        });
+    }
+
+    static Image getImage(Jeu jeu, double width, double height) {
+        if (jeu != null && jeu.getBackgroundImageUrl() != null) {
+            return new Image(jeu.getBackgroundImageUrl(), width, height, false, true, true);
+        }
+        return createPoster(jeu, width, height);
+    }
+
+    static Image getHeroImage(Jeu jeu, double width, double height) {
+        if (jeu != null && jeu.getBackgroundImageUrl() != null) {
+            return new Image(jeu.getBackgroundImageUrl(), width, height, false, true, true);
+        }
+        return createHero(jeu, width, height);
     }
 
     static Image createPoster(Jeu jeu, double width, double height) {

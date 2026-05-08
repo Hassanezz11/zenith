@@ -4,7 +4,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.Region?>
@@ -14,31 +15,59 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="atlantafx.sampler.zenith.ChatBotPopupController"
       fx:id="root"
-      spacing="12"
-      maxWidth="360">
+      spacing="10"
+      maxWidth="380"
+      minWidth="340"
+      prefHeight="500">
     <styleClass>
         <String fx:value="chat-popup"/>
         <String fx:value="elevated-1"/>
     </styleClass>
     <padding>
-        <Insets top="14" right="14" bottom="14" left="14"/>
+        <Insets top="14" right="14" bottom="12" left="14"/>
     </padding>
-    <HBox alignment="CENTER_LEFT" spacing="10">
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="8">
+        <Label text="●" style="-fx-text-fill: #ccff00; -fx-font-size: 10px;"/>
         <Label text="Zenith AI" styleClass="section-title"/>
         <Region>
             <HBox.hgrow>
                 <Priority fx:constant="ALWAYS"/>
             </HBox.hgrow>
         </Region>
-        <Button fx:id="minimizeButton" text="Minimize" styleClass="flat"/>
+        <Button fx:id="clearButton" text="Clear" styleClass="flat" style="-fx-font-size: 11px;"/>
+        <Button fx:id="minimizeButton" text="─" styleClass="flat" style="-fx-font-size: 11px;"/>
     </HBox>
-    <HBox spacing="10">
-        <Button fx:id="communityButton" text="Community animations" styleClass="flat"/>
-        <Button fx:id="supportButton" text="Technical Support" styleClass="flat"/>
+
+    <!-- Quick action chips -->
+    <HBox spacing="6" alignment="CENTER_LEFT">
+        <Button fx:id="suggestButton" text="🎮 Suggest Games" styleClass="chat-quick-btn"/>
+        <Button fx:id="navigateButton" text="🗺 Navigate" styleClass="chat-quick-btn"/>
+        <Button fx:id="supportButton" text="💬 Support" styleClass="chat-quick-btn"/>
     </HBox>
-    <TextArea fx:id="outputArea" editable="false" wrapText="true" prefRowCount="10">
+
+    <!-- Messages scroll area -->
+    <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                style="-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;">
         <VBox.vgrow>
             <Priority fx:constant="ALWAYS"/>
         </VBox.vgrow>
-    </TextArea>
+        <VBox fx:id="chatMessagesBox" spacing="10" fillWidth="true">
+            <padding>
+                <Insets top="4" right="4" bottom="4" left="4"/>
+            </padding>
+        </VBox>
+    </ScrollPane>
+
+    <!-- Input row -->
+    <HBox spacing="8" alignment="CENTER">
+        <TextField fx:id="chatInput" promptText="Ask me anything…"
+                   styleClass="chat-input">
+            <HBox.hgrow>
+                <Priority fx:constant="ALWAYS"/>
+            </HBox.hgrow>
+        </TextField>
+        <Button fx:id="sendButton" text="➤" styleClass="accent, chat-send-btn"/>
+    </HBox>
 </VBox>

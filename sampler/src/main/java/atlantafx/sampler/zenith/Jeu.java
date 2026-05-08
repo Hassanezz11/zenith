@@ -11,7 +11,30 @@ public final class Jeu {
     private final Double prix;
     private final String promoLabel;
     private final String accentColor;
+    private final String backgroundImageUrl;
     private final List<Review> reviews;
+
+    public Jeu(
+        int jeuId,
+        String titre,
+        String category,
+        String description,
+        Double prix,
+        String promoLabel,
+        String accentColor,
+        String backgroundImageUrl,
+        List<Review> reviews
+    ) {
+        this.jeuId = jeuId;
+        this.titre = titre;
+        this.category = category;
+        this.description = description;
+        this.prix = prix;
+        this.promoLabel = promoLabel;
+        this.accentColor = accentColor;
+        this.backgroundImageUrl = backgroundImageUrl;
+        this.reviews = List.copyOf(reviews);
+    }
 
     public Jeu(
         int jeuId,
@@ -23,14 +46,7 @@ public final class Jeu {
         String accentColor,
         List<Review> reviews
     ) {
-        this.jeuId = jeuId;
-        this.titre = titre;
-        this.category = category;
-        this.description = description;
-        this.prix = prix;
-        this.promoLabel = promoLabel;
-        this.accentColor = accentColor;
-        this.reviews = List.copyOf(reviews);
+        this(jeuId, titre, category, description, prix, promoLabel, accentColor, null, reviews);
     }
 
     public Jeu(
@@ -42,38 +58,42 @@ public final class Jeu {
         String accentColor,
         List<Review> reviews
     ) {
-        this(0, titre, category, description, prix, promoLabel, accentColor, reviews);
+        this(0, titre, category, description, prix, promoLabel, accentColor, null, reviews);
     }
 
-    int getJeuId() {
+    public int getJeuId() {
         return jeuId;
     }
 
-    String getTitre() {
+    public String getTitre() {
         return titre;
     }
 
-    String getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    String getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    Double getPrix() {
+    public Double getPrix() {
         return prix;
     }
 
-    String getPromoLabel() {
+    public String getPromoLabel() {
         return promoLabel;
     }
 
-    String getAccentColor() {
+    public String getAccentColor() {
         return accentColor;
     }
 
-    List<Review> getReviews() {
+    public String getBackgroundImageUrl() {
+        return backgroundImageUrl;
+    }
+
+    public List<Review> getReviews() {
         return reviews;
     }
 

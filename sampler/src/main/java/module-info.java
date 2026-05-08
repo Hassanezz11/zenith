@@ -10,6 +10,8 @@ module atlantafx.sampler {
     requires javafx.fxml;
 
     requires java.sql;
+    requires java.net.http;
+    requires com.google.gson;
 
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.ikonli.feather;

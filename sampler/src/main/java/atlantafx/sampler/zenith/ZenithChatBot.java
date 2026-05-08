@@ -4,6 +4,9 @@ import java.util.List;
 
 final class ZenithChatBot {
 
+    private static final String RAWG_API_KEY = "5333d71d419145399087b9b8da4a1d20";
+    private final RawgApiService rawgService = new RawgApiService(RAWG_API_KEY);
+
     List<Jeu> recommanderDesJeux(Joueur joueur, List<Jeu> jeux) {
         return jeux.stream()
             .filter(game -> joueur.getPreferedGames().stream()
@@ -12,6 +15,33 @@ final class ZenithChatBot {
                 .noneMatch(owned -> owned.getTitre().equalsIgnoreCase(game.getTitre())))
             .limit(3)
             .toList();
+    }
+
+    List<RawgGame> fetchRawgGames(String genre) {
+        return rawgService.fetchTopGamesByGenreAsObjects(genre);
+    }
+
+    List<Jeu> fetchGamesAsJeu(String genre, int count) {
+        return rawgService.fetchGamesAsJeu(genre, count, 1);
+    }
+
+    List<Jeu> fetchGamesAsJeu(String genre, int count, int page) {
+        return rawgService.fetchGamesAsJeu(genre, count, page);
+    }
+
+    List<Jeu> searchGamesAsJeu(String query, int page) {
+        return rawgService.searchGamesAsJeu(query, page);
+    }
+
+    String recommanderDepuisRawg(Joueur joueur) {
+        List<Jeu> preferred = joueur.getPreferedGames();
+        String genre = preferred.isEmpty() ? "action" : preferred.get(0).getCategory();
+        List<String> rawgGames = rawgService.fetchTopGamesByGenre(genre);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Top rated ").append(genre).append(" games from RAWG.io:\n\n");
+        rawgGames.forEach(line -> sb.append(line).append("\n"));
+        return sb.toString();
     }
 
     String animerLaCommunaute() {

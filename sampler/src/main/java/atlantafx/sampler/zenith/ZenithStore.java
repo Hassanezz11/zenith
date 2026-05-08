@@ -62,6 +62,22 @@ final class ZenithStore {
         return chatBot.recommanderDesJeux(currentUser, games);
     }
 
+    List<RawgGame> getRawgGames(String genre) {
+        return chatBot.fetchRawgGames(genre);
+    }
+
+    List<Jeu> fetchRawgGamesAsJeu(String genre, int count) {
+        return chatBot.fetchGamesAsJeu(genre, count, 1);
+    }
+
+    List<Jeu> fetchRawgGamesAsJeu(String genre, int count, int page) {
+        return chatBot.fetchGamesAsJeu(genre, count, page);
+    }
+
+    List<Jeu> searchRawgGamesAsJeu(String query, int page) {
+        return chatBot.searchGamesAsJeu(query, page);
+    }
+
     ZenithChatBot getChatBot() {
         return chatBot;
     }

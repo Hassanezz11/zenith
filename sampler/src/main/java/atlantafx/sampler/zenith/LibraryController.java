@@ -78,7 +78,7 @@ public class LibraryController implements Initializable {
     }
 
     private VBox createTile(Jeu jeu) {
-        ImageView poster = new ImageView(ZenithArtwork.createPoster(jeu, 180, 240));
+        ImageView poster = new ImageView(ZenithArtwork.getImage(jeu, 180, 240));
         poster.setFitWidth(180);
         poster.setFitHeight(240);
         poster.setPreserveRatio(false);

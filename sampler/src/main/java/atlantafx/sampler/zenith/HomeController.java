@@ -5,12 +5,16 @@ import atlantafx.sampler.zenith.dao.UsersJeuxDAO;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -33,13 +37,32 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Jeu featured = store.getFeaturedGame();
-        heroImage.setImage(ZenithArtwork.createHero(featured, 1100, 340));
-        heroTitle.setText(featured.getTitre());
-        heroSubtitle.setText(featured.getDescription());
-        playNowButton.setOnAction(event -> MainController.getInstance().showGameDetail(featured));
+        if (featured != null) {
+            heroImage.setImage(ZenithArtwork.createHero(featured, 1100, 340));
+            heroTitle.setText(featured.getTitre());
+            heroSubtitle.setText(featured.getDescription());
+            playNowButton.setOnAction(event -> MainController.getInstance().showGameDetail(featured));
+        }
 
         buildQuickStats();
         buildSuggestions();
+        loadHeroFromRawg();
+    }
+
+    private void loadHeroFromRawg() {
+        CompletableFuture.supplyAsync(() -> store.fetchRawgGamesAsJeu("action", 1))
+            .thenAccept(games -> Platform.runLater(() -> {
+                if (!games.isEmpty()) {
+                    Jeu featured = games.get(0);
+                    heroTitle.setText(featured.getTitre());
+                    heroSubtitle.setText(featured.getDescription());
+                    ZenithArtwork.loadImageAsync(featured.getBackgroundImageUrl(), 1100, 340, heroImage);
+                    playNowButton.setOnAction(event -> {
+                        store.setSelectedGame(featured);
+                        MainController.getInstance().showGameDetail(featured);
+                    });
+                }
+            }));
     }
 
     public void setCurrentUser(Joueur user) {
@@ -86,28 +109,44 @@ public class HomeController implements Initializable {
 
     private void buildSuggestions() {
         aiSuggestionsBox.getChildren().clear();
-        for (Jeu jeu : store.getRecommendedGames()) {
-            aiSuggestionsBox.getChildren().add(createSuggestionCard(jeu));
-        }
+        Label loading = new Label("Loading top games from RAWG.io...");
+        loading.getStyleClass().add("muted-copy");
+        aiSuggestionsBox.getChildren().add(loading);
+
+        Joueur user = Session.isLoggedIn() ? Session.getCurrentUser() : store.getCurrentUser();
+        List<Jeu> preferred = user.getPreferedGames();
+        String genre = preferred.isEmpty() ? "action" : preferred.get(0).getCategory();
+
+        CompletableFuture.supplyAsync(() -> store.getRawgGames(genre))
+            .thenAccept(rawgGames -> Platform.runLater(() -> {
+                aiSuggestionsBox.getChildren().clear();
+                if (rawgGames.isEmpty()) {
+                    aiSuggestionsBox.getChildren().add(new Label("No recommendations available."));
+                } else {
+                    rawgGames.forEach(g -> aiSuggestionsBox.getChildren().add(createRawgCard(g)));
+                }
+            }));
     }
 
-    private VBox createSuggestionCard(Jeu jeu) {
-        ImageView poster = new ImageView(ZenithArtwork.createPoster(jeu, 220, 300));
+    private VBox createRawgCard(RawgGame game) {
+        ImageView poster = new ImageView();
         poster.setFitWidth(220);
         poster.setFitHeight(300);
         poster.setPreserveRatio(false);
+        ZenithArtwork.loadImageAsync(game.backgroundImageUrl(), 220, 300, poster);
 
-        Label title = new Label(jeu.getTitre());
+        Label title = new Label(game.name());
         title.getStyleClass().add("game-title");
+        title.setWrapText(true);
+        title.setMaxWidth(220);
 
-        Label meta = new Label(jeu.getCategory() + "  |  " + jeu.getDisplayPrice());
+        Label meta = new Label(game.genre().toUpperCase() + "  |  ★ " + String.format("%.1f", game.rating()));
         meta.getStyleClass().add("muted-copy");
 
-        Button details = new Button("View Detail");
-        details.getStyleClass().addAll("flat", "accent");
-        details.setOnAction(event -> MainController.getInstance().showGameDetail(jeu));
+        Label released = new Label("Released: " + game.released());
+        released.getStyleClass().add("muted-copy");
 
-        VBox card = new VBox(12, poster, title, meta, details);
+        VBox card = new VBox(12, poster, title, meta, released);
         card.setAlignment(Pos.TOP_LEFT);
         card.getStyleClass().addAll("dashboard-card", "suggestion-card", "elevated-1");
         HBox.setHgrow(card, Priority.ALWAYS);

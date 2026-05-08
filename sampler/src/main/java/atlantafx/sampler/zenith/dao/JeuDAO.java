@@ -61,6 +61,37 @@ public class JeuDAO {
         return list;
     }
 
+    /**
+     * Ensures a RAWG game exists in the local DB and returns its local JeuId.
+     * Matches by title; inserts if not found.
+     */
+    public static int upsertRawgGame(Jeu jeu) throws SQLException {
+        String checkSql = "SELECT JeuId FROM Jeux WHERE Titre = ?";
+        try (Connection cnx = ConnectionDB.getCnx()) {
+            try (PreparedStatement check = cnx.prepareStatement(checkSql)) {
+                check.setString(1, jeu.getTitre());
+                try (ResultSet rs = check.executeQuery()) {
+                    if (rs.next()) return rs.getInt(1);
+                }
+            }
+            String insertSql = "INSERT INTO Jeux (Titre, Categorie, Description, Prix, PromoLabel, CouleurAccent)"
+                + " VALUES (?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement ps = cnx.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setString(1, jeu.getTitre());
+                ps.setString(2, jeu.getCategory());
+                ps.setString(3, jeu.getDescription());
+                ps.setDouble(4, jeu.getPrix() != null ? jeu.getPrix() : 0.0);
+                ps.setString(5, jeu.getPromoLabel());
+                ps.setString(6, jeu.getAccentColor());
+                ps.executeUpdate();
+                try (ResultSet keys = ps.getGeneratedKeys()) {
+                    if (keys.next()) return keys.getInt(1);
+                }
+            }
+        }
+        throw new SQLException("Failed to upsert RAWG game: " + jeu.getTitre());
+    }
+
     static Jeu map(ResultSet rs) throws SQLException {
         return new Jeu(
             rs.getInt("JeuId"),
