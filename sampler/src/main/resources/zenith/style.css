@@ -635,3 +635,72 @@
     -fx-font-size: 11px;
     -fx-font-weight: 700;
 }
+
+/* ── Payment Dialog ──────────────────────────────────────────────────────── */
+
+.payment-dialog {
+    -fx-background-color: #0f1117;
+}
+
+.payment-field {
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-background-color: rgba(255, 255, 255, 0.06);
+    -fx-border-color: rgba(255, 255, 255, 0.14);
+    -fx-border-width: 1px;
+    -fx-padding: 10 14 10 14;
+    -fx-font-size: 14px;
+    -fx-text-fill: -color-fg-default;
+    -fx-prompt-text-fill: rgba(165, 173, 198, 0.55);
+}
+
+.payment-field:focused {
+    -fx-border-color: rgba(204, 255, 0, 0.5);
+    -fx-background-color: rgba(204, 255, 0, 0.04);
+}
+
+.pay-button {
+    -fx-font-size: 15px;
+    -fx-font-weight: 800;
+    -fx-background-radius: 12px;
+    -fx-pref-height: 48px;
+}
+
+.platform-btn-steam {
+    -fx-background-color: #1a9fff;
+    -fx-text-fill: white;
+    -fx-background-radius: 10px;
+    -fx-font-weight: 700;
+    -fx-font-size: 13px;
+    -fx-padding: 10 22 10 22;
+    -fx-cursor: hand;
+}
+
+.platform-btn-steam:hover {
+    -fx-background-color: #3db4ff;
+}
+
+.platform-btn-epic {
+    -fx-background-color: #2d2d2d;
+    -fx-text-fill: white;
+    -fx-background-radius: 10px;
+    -fx-font-weight: 700;
+    -fx-font-size: 13px;
+    -fx-padding: 10 22 10 22;
+    -fx-border-color: rgba(255,255,255,0.18);
+    -fx-border-radius: 10px;
+    -fx-border-width: 1px;
+    -fx-cursor: hand;
+}
+
+.platform-btn-epic:hover {
+    -fx-background-color: #3d3d3d;
+}
+
+.form-error {
+    -fx-text-fill: #ff5555;
+    -fx-font-size: 12px;
+    -fx-background-color: rgba(255, 85, 85, 0.1);
+    -fx-background-radius: 8px;
+    -fx-padding: 6 10 6 10;
+}

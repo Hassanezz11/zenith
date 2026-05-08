@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/24"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="atlantafx.sampler.zenith.PaymentDialogController"
+      styleClass="payment-dialog"
+      spacing="18"
+      prefWidth="430"
+      maxWidth="430">
+    <padding>
+        <Insets top="28" right="28" bottom="28" left="28"/>
+    </padding>
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="🔐 Complete Purchase" styleClass="page-title"/>
+    </HBox>
+
+    <!-- Game info -->
+    <VBox fx:id="gameInfoBox" spacing="4"
+          style="-fx-background-color: rgba(255,255,255,0.05); -fx-background-radius: 12; -fx-padding: 14;">
+        <Label fx:id="gameTitleLabel" styleClass="section-title"/>
+        <HBox spacing="14">
+            <Label fx:id="gameCategoryLabel" styleClass="muted-copy"/>
+            <Region><HBox.hgrow><Priority fx:constant="ALWAYS"/></HBox.hgrow></Region>
+            <Label fx:id="gamePriceLabel" style="-fx-font-size: 18px; -fx-font-weight: 800; -fx-text-fill: #ccff00;"/>
+        </HBox>
+    </VBox>
+
+    <Separator opacity="0.3"/>
+
+    <!-- ═══ PAYMENT FORM VIEW ═══ -->
+    <VBox fx:id="formView" spacing="14">
+
+        <!-- Card Number -->
+        <VBox spacing="5">
+            <Label text="Card Number" styleClass="muted-copy"/>
+            <TextField fx:id="cardNumberField" promptText="1234 5678 9012 3456" styleClass="payment-field"/>
+        </VBox>
+
+        <!-- Expiry + CVV -->
+        <HBox spacing="14">
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label text="Expiry Date" styleClass="muted-copy"/>
+                <TextField fx:id="expiryField" promptText="MM / YY" styleClass="payment-field"/>
+            </VBox>
+            <VBox spacing="5" prefWidth="110">
+                <Label text="CVV" styleClass="muted-copy"/>
+                <TextField fx:id="cvvField" promptText="123" styleClass="payment-field"/>
+            </VBox>
+        </HBox>
+
+        <!-- Cardholder Name -->
+        <VBox spacing="5">
+            <Label text="Cardholder Name" styleClass="muted-copy"/>
+            <TextField fx:id="cardNameField" promptText="John Doe" styleClass="payment-field"/>
+        </VBox>
+
+        <!-- Error message -->
+        <Label fx:id="errorLabel" styleClass="form-error" wrapText="true" visible="false" managed="false"/>
+
+        <Separator opacity="0.2"/>
+
+        <!-- Pay Button -->
+        <Button fx:id="payButton" styleClass="accent, pay-button"
+                maxWidth="Infinity" onAction="#processPayment"/>
+
+        <!-- Stripe badge -->
+        <Label text="🔒  Secured by Stripe · SSL Encrypted"
+               styleClass="muted-copy"
+               style="-fx-font-size: 11px; -fx-alignment: center;"
+               maxWidth="Infinity"/>
+    </VBox>
+
+    <!-- ═══ SUCCESS VIEW (hidden initially) ═══ -->
+    <VBox fx:id="successView" spacing="16" alignment="CENTER"
+          visible="false" managed="false">
+
+        <Label text="✅" style="-fx-font-size: 52px;" alignment="CENTER" maxWidth="Infinity"/>
+
+        <Label text="Payment Successful!" styleClass="page-title"
+               style="-fx-alignment: center;" maxWidth="Infinity"/>
+
+        <Label fx:id="successGameLabel" styleClass="muted-copy" wrapText="true"
+               style="-fx-alignment: center; -fx-font-size: 13px;" maxWidth="Infinity"/>
+
+        <Separator opacity="0.3"/>
+
+        <Label text="Activate or download your game:" styleClass="section-title"
+               style="-fx-alignment: center;" maxWidth="Infinity"/>
+
+        <HBox spacing="12" alignment="CENTER">
+            <Button fx:id="steamButton" text="🎮  Steam Store"
+                    styleClass="platform-btn-steam" onAction="#openSteam"/>
+            <Button fx:id="epicButton" text="⚡  Epic Games"
+                    styleClass="platform-btn-epic" onAction="#openEpic"/>
+        </HBox>
+
+        <Button fx:id="closeButton" text="Back to Store"
+                styleClass="flat" maxWidth="Infinity" onAction="#closeDialog"/>
+    </VBox>
+</VBox>

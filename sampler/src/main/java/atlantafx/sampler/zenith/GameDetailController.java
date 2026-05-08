@@ -5,14 +5,21 @@ import atlantafx.sampler.zenith.dao.JeuDAO;
 import atlantafx.sampler.zenith.dao.UserDAO;
 import atlantafx.sampler.zenith.dao.UsersJeuxDAO;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -114,17 +121,53 @@ public class GameDetailController implements Initializable {
     private void addToLibrary() {
         Joueur user = store.getCurrentUser();
         if (user.getUserId() <= 0) { actionStatusLabel.setText("Please log in first."); return; }
+        if (!jeu.isFree()) {
+            openPaymentDialog();
+        } else {
+            commitToLibrary();
+        }
+    }
+
+    private void openPaymentDialog() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/zenith/fxml/PaymentDialog.fxml"));
+            Parent root = loader.load();
+
+            PaymentDialogController ctrl = loader.getController();
+            ctrl.setup(jeu, this::commitToLibrary);
+
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(
+                getClass().getResource("/zenith/style.css").toExternalForm());
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Complete Purchase – Zenith");
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            commitToLibrary();
+        }
+    }
+
+    private void commitToLibrary() {
+        Joueur user = store.getCurrentUser();
         try {
             int localId = JeuDAO.upsertRawgGame(jeu);
             UsersJeuxDAO.addToLibrary(user.getUserId(), localId);
             recalculateRank(user.getUserId());
-            actionStatusLabel.setText("Added to your library!");
-            addToLibraryButton.setText("In Library");
-            addToLibraryButton.setDisable(true);
-            addToWishlistButton.setDisable(true);
+            Platform.runLater(() -> {
+                actionStatusLabel.setText("Added to your library!");
+                addToLibraryButton.setText("In Library");
+                addToLibraryButton.setDisable(true);
+                addToWishlistButton.setDisable(true);
+            });
         } catch (SQLException e) {
             e.printStackTrace();
-            actionStatusLabel.setText("Could not add to library.");
+            Platform.runLater(() -> actionStatusLabel.setText("Could not add to library."));
         }
     }
 
@@ -156,7 +199,6 @@ public class GameDetailController implements Initializable {
     private void submitReview() {
         Joueur user = store.getCurrentUser();
         if (user.getUserId() <= 0) { reviewStatusLabel.setText("Please log in to review."); return; }
-        if (jeu.getJeuId() <= 0)   { reviewStatusLabel.setText("Game not found in DB."); return; }
         Integer rating  = ratingBox.getValue();
         String  comment = reviewInput.getText().trim();
         if (rating == null || comment.isEmpty()) {
@@ -164,7 +206,8 @@ public class GameDetailController implements Initializable {
             return;
         }
         try {
-            AvisDAO.save(jeu.getJeuId(), user.getUserId(), rating, comment);
+            int localId = JeuDAO.upsertRawgGame(jeu);
+            AvisDAO.save(localId, user.getUserId(), rating, comment);
             reviewInput.clear();
             reviewStatusLabel.setText("Review submitted!");
             loadReviews();
