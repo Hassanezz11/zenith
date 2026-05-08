@@ -7,25 +7,22 @@ final class Conversation {
 
     private final Joueur participant;
     private final List<Message> messages;
+    private int unreadCount;
 
     Conversation(Joueur participant, List<Message> messages) {
         this.participant = participant;
         this.messages = new ArrayList<>(messages);
     }
 
-    Joueur getParticipant() {
-        return participant;
-    }
+    Joueur getParticipant() { return participant; }
 
-    List<Message> getMessages() {
-        return messages;
-    }
+    List<Message> getMessages() { return messages; }
+
+    int getUnreadCount() { return unreadCount; }
+
+    void setUnreadCount(int count) { this.unreadCount = count; }
 
     Message getLastMessage() {
-        if (messages.isEmpty()) {
-            return null;
-        }
-
-        return messages.get(messages.size() - 1);
+        return messages.isEmpty() ? null : messages.get(messages.size() - 1);
     }
 }

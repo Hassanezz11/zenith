@@ -7,6 +7,7 @@ import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -48,6 +49,8 @@ public class MainController implements Initializable {
     private Button activeNavBtn;
     private SearchAware searchAwareController;
     private boolean chatExpanded;
+    private Label msgBadge;
+    private Label friendBadge;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -66,6 +69,7 @@ public class MainController implements Initializable {
 
         switchView(FXML_HOME);
         searchBar.textProperty().addListener((obs, oldVal, newVal) -> onSearch(newVal));
+        startNotifications();
     }
 
     @FXML
@@ -155,14 +159,50 @@ public class MainController implements Initializable {
         btnHome.setGraphic(new FontIcon(Feather.HOME));
         btnBrowse.setGraphic(new FontIcon(Feather.GRID));
         btnLibrary.setGraphic(new FontIcon(Feather.BOOK_OPEN));
-        btnMessages.setGraphic(new FontIcon(Feather.MESSAGE_SQUARE));
         btnProfile.setGraphic(new FontIcon(Feather.USER));
         btnAdmin.setGraphic(new FontIcon(Feather.SHIELD));
         chatLauncherButton.setGraphic(new FontIcon(Feather.MESSAGE_CIRCLE));
+
+        // Messages icon with notification badge overlay
+        FontIcon msgIcon = new FontIcon(Feather.MESSAGE_SQUARE);
+        msgBadge = new Label("");
+        msgBadge.getStyleClass().add("nav-badge");
+        msgBadge.setVisible(false);
+        StackPane msgGraphic = new StackPane(msgIcon, msgBadge);
+        msgGraphic.setAlignment(Pos.TOP_RIGHT);
+        StackPane.setAlignment(msgBadge, Pos.TOP_RIGHT);
+        btnMessages.setGraphic(msgGraphic);
+    }
+
+    private void startNotifications() {
+        Joueur user = store.getCurrentUser();
+        if (user.getUserId() <= 0) return;
+        NotificationService ns = NotificationService.getInstance();
+        ns.start(user.getUserId());
+        ns.unreadMessagesProperty().addListener((obs, o, n) -> updateBadge());
+        ns.pendingRequestsProperty().addListener((obs, o, n) -> updateBadge());
+    }
+
+    private void updateBadge() {
+        int total = NotificationService.getInstance().getTotalBadge();
+        if (msgBadge == null) return;
+        if (total > 0) {
+            msgBadge.setText(total > 99 ? "99+" : String.valueOf(total));
+            msgBadge.setVisible(true);
+        } else {
+            msgBadge.setVisible(false);
+        }
     }
 
     public void setCurrentUser(Joueur user) {
         configureUserMenu();
+        NotificationService.getInstance().stop();
+        if (user.getUserId() > 0) {
+            NotificationService ns = NotificationService.getInstance();
+            ns.start(user.getUserId());
+            ns.unreadMessagesProperty().addListener((obs, o, n) -> updateBadge());
+            ns.pendingRequestsProperty().addListener((obs, o, n) -> updateBadge());
+        }
     }
 
     private void configureUserMenu() {

@@ -704,3 +704,51 @@
     -fx-background-radius: 8px;
     -fx-padding: 6 10 6 10;
 }
+
+/* ── Notification Badge ──────────────────────────────────────────────────── */
+
+.nav-badge {
+    -fx-background-color: #ff5555;
+    -fx-text-fill: white;
+    -fx-background-radius: 999px;
+    -fx-font-size: 9px;
+    -fx-font-weight: 800;
+    -fx-padding: 1 5 1 5;
+    -fx-min-width: 16px;
+    -fx-min-height: 16px;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(gaussian, rgba(255,85,85,0.6), 6, 0.4, 0, 0);
+    -fx-translate-x: 2px;
+    -fx-translate-y: -2px;
+}
+
+/* ── Conversation sidebar cells ──────────────────────────────────────────── */
+
+.conv-avatar {
+    -fx-background-color: rgba(204, 255, 0, 0.18);
+    -fx-background-radius: 999px;
+    -fx-border-color: rgba(204, 255, 0, 0.35);
+    -fx-border-radius: 999px;
+    -fx-border-width: 1.5px;
+    -fx-text-fill: -color-accent-emphasis;
+    -fx-font-weight: 800;
+    -fx-font-size: 14px;
+    -fx-alignment: center;
+    -fx-min-width: 38px;
+    -fx-min-height: 38px;
+    -fx-max-width: 38px;
+    -fx-max-height: 38px;
+}
+
+.conv-unread-badge {
+    -fx-background-color: #ff5555;
+    -fx-text-fill: white;
+    -fx-background-radius: 999px;
+    -fx-font-size: 10px;
+    -fx-font-weight: 800;
+    -fx-padding: 1 6 1 6;
+    -fx-min-width: 20px;
+    -fx-min-height: 20px;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(gaussian, rgba(255,85,85,0.5), 5, 0.3, 0, 0);
+}

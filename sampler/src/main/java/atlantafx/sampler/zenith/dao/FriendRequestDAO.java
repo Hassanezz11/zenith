@@ -12,13 +12,23 @@ public class FriendRequestDAO {
 
     public static void sendRequest(int senderId, int receiverId) throws SQLException {
         try (Connection cnx = ConnectionDB.getCnx()) {
+            // Check if already friends or a PENDING request exists in either direction
             try (PreparedStatement check = cnx.prepareStatement(
-                "SELECT COUNT(*) FROM Amis WHERE (UserId1 = ? AND UserId2 = ?) OR (UserId1 = ? AND UserId2 = ?)")) {
+                "SELECT Status FROM Amis WHERE (UserId1 = ? AND UserId2 = ?) OR (UserId1 = ? AND UserId2 = ?)")) {
                 check.setInt(1, senderId); check.setInt(2, receiverId);
                 check.setInt(3, receiverId); check.setInt(4, senderId);
                 try (ResultSet rs = check.executeQuery()) {
-                    rs.next();
-                    if (rs.getInt(1) > 0) return;
+                    if (rs.next()) {
+                        String status = rs.getString("Status");
+                        if ("ACCEPTED".equals(status) || "PENDING".equals(status)) return;
+                        // REJECTED — delete the old row so we can re-send
+                        try (PreparedStatement del = cnx.prepareStatement(
+                            "DELETE FROM Amis WHERE (UserId1 = ? AND UserId2 = ?) OR (UserId1 = ? AND UserId2 = ?)")) {
+                            del.setInt(1, senderId); del.setInt(2, receiverId);
+                            del.setInt(3, receiverId); del.setInt(4, senderId);
+                            del.executeUpdate();
+                        }
+                    }
                 }
             }
             try (PreparedStatement ps = cnx.prepareStatement(
@@ -68,6 +78,17 @@ public class FriendRequestDAO {
             }
         }
         return list;
+    }
+
+    public static int getPendingCount(int userId) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM Amis WHERE UserId2 = ? AND Status = 'PENDING'";
+        try (Connection cnx = ConnectionDB.getCnx();
+             PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getInt(1) : 0;
+            }
+        }
     }
 
     public static List<Joueur> getPendingRequests(int userId) throws SQLException {
