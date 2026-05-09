@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 final class ZenithStore {
 
@@ -14,6 +16,9 @@ final class ZenithStore {
     private List<Jeu> games;
     private final List<Conversation> conversations;
     private final Joueur currentUser;
+
+    /** Genre detected from the user's chatbot conversation — null means use profile preferences. */
+    private final SimpleStringProperty chatDetectedGenre = new SimpleStringProperty(null);
 
     private Jeu selectedGame;
     private ProfileTab selectedProfileTab = ProfileTab.OWNED;
@@ -131,5 +136,46 @@ final class ZenithStore {
 
     void setSelectedProfileTab(ProfileTab selectedProfileTab) {
         this.selectedProfileTab = selectedProfileTab;
+    }
+
+    StringProperty chatDetectedGenreProperty() {
+        return chatDetectedGenre;
+    }
+
+    /** Returns the genre to use for home suggestions: chat-detected first, then profile preferences. */
+    String getEffectiveGenre(Joueur user) {
+        String detected = chatDetectedGenre.get();
+        if (detected != null) return detected;
+        List<Jeu> preferred = user.getPreferedGames();
+        return preferred.isEmpty() ? "action" : preferred.get(0).getCategory();
+    }
+
+    /**
+     * Parses the latest user message and AI response for genre keywords and updates
+     * the chatDetectedGenre property so the home page suggestions refresh automatically.
+     */
+    void updateFromChat(String userMessage, String aiResponse) {
+        String text = (userMessage + " " + aiResponse).toLowerCase();
+        String genre = extractGenre(text);
+        if (genre != null) {
+            chatDetectedGenre.set(genre);
+        }
+    }
+
+    private String extractGenre(String text) {
+        if (text.contains("role-playing") || text.contains("role playing") || text.contains(" rpg")) return "rpg";
+        if (text.contains("first-person") || text.contains(" fps") || text.contains("shooter")) return "shooter";
+        if (text.contains("platformer")) return "platformer";
+        if (text.contains("horror")) return "horror";
+        if (text.contains("adventure")) return "adventure";
+        if (text.contains("strategy")) return "strategy";
+        if (text.contains("simulation") || text.contains("simulator")) return "simulation";
+        if (text.contains("sports")) return "sports";
+        if (text.contains("racing")) return "racing";
+        if (text.contains("fighting")) return "fighting";
+        if (text.contains("puzzle")) return "puzzle";
+        if (text.contains("indie")) return "indie";
+        if (text.contains("action")) return "action";
+        return null;
     }
 }

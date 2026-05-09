@@ -46,7 +46,7 @@
                     <Priority fx:constant="ALWAYS"/>
                 </HBox.hgrow>
             </Region>
-            <Label text="Powered by RAWG.io" styleClass="muted-copy"/>
+            <Label fx:id="suggestionSourceLabel" text="Powered by RAWG.io" styleClass="muted-copy"/>
         </HBox>
 
         <HBox fx:id="aiSuggestionsBox" spacing="16" fillHeight="true" maxWidth="Infinity"/>

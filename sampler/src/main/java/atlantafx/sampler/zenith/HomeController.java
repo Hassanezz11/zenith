@@ -14,7 +14,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -30,6 +29,7 @@ public class HomeController implements Initializable {
     @FXML private Label heroSubtitle;
     @FXML private FlowPane quickStatsPane;
     @FXML private HBox aiSuggestionsBox;
+    @FXML private Label suggestionSourceLabel;
     @FXML private Button playNowButton;
 
     private final ZenithStore store = ZenithStore.getInstance();
@@ -47,6 +47,11 @@ public class HomeController implements Initializable {
         buildQuickStats();
         buildSuggestions();
         loadHeroFromRawg();
+
+        // Refresh suggestions whenever the chatbot detects a new genre preference.
+        store.chatDetectedGenreProperty().addListener((obs, oldGenre, newGenre) -> {
+            if (newGenre != null) buildSuggestions();
+        });
     }
 
     private void loadHeroFromRawg() {
@@ -114,8 +119,14 @@ public class HomeController implements Initializable {
         aiSuggestionsBox.getChildren().add(loading);
 
         Joueur user = Session.isLoggedIn() ? Session.getCurrentUser() : store.getCurrentUser();
-        List<Jeu> preferred = user.getPreferedGames();
-        String genre = preferred.isEmpty() ? "action" : preferred.get(0).getCategory();
+        String genre = store.getEffectiveGenre(user);
+        boolean fromChat = store.chatDetectedGenreProperty().get() != null;
+
+        if (suggestionSourceLabel != null) {
+            suggestionSourceLabel.setText(fromChat
+                ? "Based on your chat — " + capitalize(genre)
+                : "Powered by RAWG.io");
+        }
 
         CompletableFuture.supplyAsync(() -> store.getRawgGames(genre))
             .thenAccept(rawgGames -> Platform.runLater(() -> {
@@ -126,6 +137,11 @@ public class HomeController implements Initializable {
                     rawgGames.forEach(g -> aiSuggestionsBox.getChildren().add(createRawgCard(g)));
                 }
             }));
+    }
+
+    private static String capitalize(String s) {
+        if (s == null || s.isEmpty()) return s;
+        return Character.toUpperCase(s.charAt(0)) + s.substring(1);
     }
 
     private VBox createRawgCard(RawgGame game) {

@@ -81,7 +81,10 @@ public class ChatBotPopupController implements Initializable {
                     streamBubble[0].setText(content.toString());
                     scrollToBottom();
                 }),
-                () -> Platform.runLater(() -> setInputEnabled(true)),
+                () -> Platform.runLater(() -> {
+                    store.updateFromChat(userText, content.toString());
+                    setInputEnabled(true);
+                }),
                 err -> Platform.runLater(() -> {
                     hideTyping();
                     addAiMessage(err);
